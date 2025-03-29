@@ -15,7 +15,6 @@
 
 return [
     'class' => 'yii\db\Connection',
-    'dsn' => 'sqlite:D:/Work/medic/basic/medic.sqlite', // Adjust filename if necessary
+    'dsn' => 'sqlite:D:/Work/medic/basic/basic.db', // ✅ Remove '@'
     'charset' => 'utf8',
 ];
-
