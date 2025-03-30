@@ -61,15 +61,37 @@ class SiteController extends Controller
      */
     public function actionIndex()
     {
-        // Use LEFT JOINs to simulate OUTER JOIN behavior.
+        $makh = Yii::$app->request->get('makh', ''); // Get makh from URL
+        $customer = $this->findCustomer($makh); // Fetch customer details
+
         $sql = "SELECT * FROM khachhang 
                 LEFT JOIN hoadon ON khachhang.makh = hoadon.makh 
                 LEFT JOIN cthd ON cthd.sohd = hoadon.sohd";
-        $data = Yii::$app->db->createCommand($sql)->queryAll();
-        
+
+        if (!empty($makh)) {
+            $sql .= " WHERE khachhang.makh = :makh"; 
+            $data = Yii::$app->db->createCommand($sql)->bindValue(':makh', $makh)->queryAll();
+        } else {
+            $data = Yii::$app->db->createCommand($sql)->queryAll();
+        }
+
         return $this->render('index', [
             'data' => $data,
+            'makh' => $makh,
+            'customer' => $customer, // Pass customer details to the view
         ]);
+    }
+
+    //Find the customer
+    private function findCustomer($makh)
+    {
+        if (empty($makh)) {
+            return null; // No customer ID provided
+        }
+
+        return Yii::$app->db->createCommand("SELECT * FROM khachhang WHERE makh = :makh")
+            ->bindValue(':makh', $makh)
+            ->queryOne();
     }
 
     /**
