@@ -66,7 +66,6 @@ use yii\widgets\LinkPager; // Ensure LinkPager is imported
         'pagination' => $pagination,  // Make sure pagination object is passed here
     ]) ?>
 
-<?= var_dump($pagination); ?>
 <?php else: ?>
     <p>No products found for this customer.</p>
 <?php endif; ?>

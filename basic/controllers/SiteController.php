@@ -92,46 +92,72 @@ class SiteController extends Controller
 
     private function getPaginatedData($makh)
     {
-        // Base SQL query to retrieve purchased product information grouped by invoice (hoadon.sohd)
-            // Base SQL query to retrieve purchased product information
-            $sql = "SELECT sanpham.masp, sanpham.tensp, sanpham.dvt, sanpham.nuocsx, sanpham.gia, 
-                        cthd.soluong, hoadon.sohd, hoadon.ngayhd
-                    FROM khachhang
-                    JOIN hoadon ON khachhang.makh = hoadon.makh
+        $db = Yii::$app->db;
+    
+        // Step 1: Get distinct invoices (hoadon.sohd) for pagination
+        $sqlCount = "SELECT COUNT(DISTINCT hoadon.sohd) 
+                     FROM khachhang
+                     JOIN hoadon ON khachhang.makh = hoadon.makh
+                     JOIN cthd ON hoadon.sohd = cthd.sohd
+                     JOIN sanpham ON cthd.masp = sanpham.masp";
+    
+        if (!empty($makh)) {
+            $sqlCount .= " WHERE khachhang.makh = :makh";
+        }
+    
+        $command = $db->createCommand($sqlCount);
+        if (!empty($makh)) {
+            $command->bindValue(':makh', $makh);
+        }
+        $totalCount = $command->queryScalar();
+    
+        // Step 2: Create pagination object
+        $pagination = new Pagination([
+            'totalCount' => $totalCount ?: 1, // Avoid division by zero
+            'pageSize' => 1, // Each page shows one invoice's details
+        ]);
+    
+        // Step 3: Fetch paginated invoices (sohd)
+        $sqlSohd = "SELECT DISTINCT hoadon.sohd 
+                    FROM hoadon
                     JOIN cthd ON hoadon.sohd = cthd.sohd
                     JOIN sanpham ON cthd.masp = sanpham.masp";
-
-        // If makh is provided, filter by customer ID
+    
         if (!empty($makh)) {
-            $sql .= " WHERE khachhang.makh = :makh";
+            $sqlSohd .= " WHERE hoadon.makh = :makh";
         }
-
-        // Group by hoadon.sohd to group by invoice
-        $sql .= " GROUP BY hoadon.sohd";
-
-        // Get total number of invoices (for pagination)
-        $totalCount = Yii::$app->db->createCommand($sql)
-            ->bindValue(':makh', $makh)
-            ->queryScalar(); // Returns the total number of invoices for pagination
-
-        // Create pagination object
-        $pagination = new Pagination([
-            'totalCount' => $totalCount,  // Total number of invoices (sohd)
-            'pageSize' => 1,             // Number of invoices per page
-        ]);
-        var_dump($totalCount);
-
-        // Modify query to use LIMIT and OFFSET for pagination (pagination is done per invoice)
-        $sql .= " LIMIT :limit OFFSET :offset";
-        
-        // Fetch the paginated data
-        $data = Yii::$app->db->createCommand($sql)
-            ->bindValue(':makh', $makh)
-            ->bindValue(':limit', $pagination->limit)
-            ->bindValue(':offset', $pagination->offset)
-            ->queryAll();
-
-        // Return data and pagination object
+    
+        $sqlSohd .= " LIMIT :limit OFFSET :offset";
+    
+        $command = $db->createCommand($sqlSohd);
+        if (!empty($makh)) {
+            $command->bindValue(':makh', $makh);
+        }
+        $command->bindValue(':limit', $pagination->limit);
+        $command->bindValue(':offset', $pagination->offset);
+    
+        $sohdResults = $command->queryColumn(); // Fetch only `sohd` values
+    
+        if (empty($sohdResults)) {
+            return [[], $pagination]; // No data found
+        }
+    
+        // Step 4: Fetch detailed product purchase information for selected invoices
+        $sqlData = "SELECT sanpham.masp, sanpham.tensp, sanpham.dvt, sanpham.nuocsx, sanpham.gia, 
+                           cthd.soluong, hoadon.sohd, hoadon.ngayhd
+                    FROM hoadon
+                    JOIN cthd ON hoadon.sohd = cthd.sohd
+                    JOIN sanpham ON cthd.masp = sanpham.masp
+                    WHERE hoadon.sohd IN (" . implode(',', array_fill(0, count($sohdResults), '?')) . ")
+                    ORDER BY hoadon.sohd";
+    
+        $command = $db->createCommand($sqlData);
+        foreach ($sohdResults as $index => $sohd) {
+            $command->bindValue($index + 1, $sohd);
+        }
+    
+        $data = $command->queryAll();
+    
         return [$data, $pagination];
     }
 
