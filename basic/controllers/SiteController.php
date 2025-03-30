@@ -61,7 +61,15 @@ class SiteController extends Controller
      */
     public function actionIndex()
     {
-        return $this->render('index');
+        // Use LEFT JOINs to simulate OUTER JOIN behavior.
+        $sql = "SELECT * FROM khachhang 
+                LEFT JOIN hoadon ON khachhang.makh = hoadon.makh 
+                LEFT JOIN cthd ON cthd.sohd = hoadon.sohd";
+        $data = Yii::$app->db->createCommand($sql)->queryAll();
+        
+        return $this->render('index', [
+            'data' => $data,
+        ]);
     }
 
     /**
