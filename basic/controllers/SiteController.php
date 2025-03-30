@@ -68,8 +68,7 @@ class SiteController extends Controller
         $customer = $this->findCustomer($makh);
 
         // SQL query to retrieve purchased product information
-        $sql = "SELECT khachhang.makh, khachhang.ho, khachhang.ten, 
-                       sanpham.masp, sanpham.tensp, sanpham.dvt, sanpham.nuocsx, sanpham.gia, 
+        $sql = "SELECT sanpham.masp, sanpham.tensp, sanpham.dvt, sanpham.nuocsx, sanpham.gia, 
                        cthd.soluong, hoadon.sohd, hoadon.ngayhd
                 FROM khachhang
                 JOIN hoadon ON khachhang.makh = hoadon.makh

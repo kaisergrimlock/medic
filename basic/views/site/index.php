@@ -37,9 +37,6 @@ use yii\helpers\Url;
     <table class="table table-bordered">
         <thead>
             <tr>
-                <th>Customer ID</th>
-                <th>First Name</th>
-                <th>Last Name</th>
                 <th>Product ID</th>
                 <th>Product Name</th>
                 <th>Unit</th>
@@ -53,9 +50,6 @@ use yii\helpers\Url;
         <tbody>
             <?php foreach ($data as $row): ?>
                 <tr>
-                    <td><?= Html::encode($row['makh']) ?></td>
-                    <td><?= Html::encode($row['ho']) ?></td>
-                    <td><?= Html::encode($row['ten']) ?></td>
                     <td><?= Html::encode($row['masp']) ?></td>
                     <td><?= Html::encode($row['tensp']) ?></td>
                     <td><?= Html::encode($row['dvt']) ?></td>
