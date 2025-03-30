@@ -61,24 +61,34 @@ class SiteController extends Controller
      */
     public function actionIndex()
     {
-        $makh = Yii::$app->request->get('makh', ''); // Get makh from URL
-        $customer = $this->findCustomer($makh); // Fetch customer details
+        // Get makh from URL parameters
+        $makh = Yii::$app->request->get('makh', '');
 
-        $sql = "SELECT * FROM khachhang 
-                LEFT JOIN hoadon ON khachhang.makh = hoadon.makh 
-                LEFT JOIN cthd ON cthd.sohd = hoadon.sohd";
+        // Fetch customer details based on makh
+        $customer = $this->findCustomer($makh);
 
+        // SQL query to retrieve purchased product information
+        $sql = "SELECT khachhang.makh, khachhang.ho, khachhang.ten, 
+                       sanpham.masp, sanpham.tensp, sanpham.dvt, sanpham.nuocsx, sanpham.gia, 
+                       cthd.soluong, hoadon.sohd, hoadon.ngayhd
+                FROM khachhang
+                JOIN hoadon ON khachhang.makh = hoadon.makh
+                JOIN cthd ON hoadon.sohd = cthd.sohd
+                JOIN sanpham ON cthd.masp = sanpham.masp";
+
+        // If a specific makh is provided, filter by customer ID (makh)
         if (!empty($makh)) {
-            $sql .= " WHERE khachhang.makh = :makh"; 
+            $sql .= " WHERE khachhang.makh = :makh";
             $data = Yii::$app->db->createCommand($sql)->bindValue(':makh', $makh)->queryAll();
         } else {
             $data = Yii::$app->db->createCommand($sql)->queryAll();
         }
 
+        // Render the index view and pass necessary data
         return $this->render('index', [
             'data' => $data,
             'makh' => $makh,
-            'customer' => $customer, // Pass customer details to the view
+            'customer' => $customer,
         ]);
     }
 

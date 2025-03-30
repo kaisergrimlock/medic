@@ -3,7 +3,7 @@ use yii\helpers\Html;
 use yii\helpers\Url;
 ?>
 
-<h1>Customer and Invoice Data</h1>
+<h1>Customer and Product Purchase Information</h1>
 
 <!-- Search Form -->
 <form method="GET" action="<?= Url::to(['site/index']) ?>">
@@ -12,6 +12,7 @@ use yii\helpers\Url;
     <button type="submit">Search</button>
 </form>
 
+<!-- Customer Details -->
 <?php if ($customer): ?>
     <div class="customer-details" style="margin-top: 20px; padding: 10px; border: 1px solid #ccc;">
         <h3>Customer Details</h3>
@@ -30,26 +31,43 @@ use yii\helpers\Url;
     <p>No customer found with Mã KH: <?= Html::encode($makh) ?></p>
 <?php endif; ?>
 
-<!-- Display Results -->
+<!-- Purchased Products Table -->
 <?php if (!empty($data)): ?>
+    <h3>Purchased Products</h3>
     <table class="table table-bordered">
         <thead>
             <tr>
-                <?php foreach (array_keys($data[0]) as $column): ?>
-                    <th><?= Html::encode($column) ?></th>
-                <?php endforeach; ?>
+                <th>Customer ID</th>
+                <th>First Name</th>
+                <th>Last Name</th>
+                <th>Product ID</th>
+                <th>Product Name</th>
+                <th>Unit</th>
+                <th>Country</th>
+                <th>Price</th>
+                <th>Quantity</th>
+                <th>Invoice No</th>
+                <th>Invoice Date</th>
             </tr>
         </thead>
         <tbody>
             <?php foreach ($data as $row): ?>
                 <tr>
-                    <?php foreach ($row as $cell): ?>
-                        <td><?= Html::encode($cell) ?></td>
-                    <?php endforeach; ?>
+                    <td><?= Html::encode($row['makh']) ?></td>
+                    <td><?= Html::encode($row['ho']) ?></td>
+                    <td><?= Html::encode($row['ten']) ?></td>
+                    <td><?= Html::encode($row['masp']) ?></td>
+                    <td><?= Html::encode($row['tensp']) ?></td>
+                    <td><?= Html::encode($row['dvt']) ?></td>
+                    <td><?= Html::encode($row['nuocsx']) ?></td>
+                    <td><?= Html::encode($row['gia']) ?></td>
+                    <td><?= Html::encode($row['soluong']) ?></td>
+                    <td><?= Html::encode($row['sohd']) ?></td>
+                    <td><?= Html::encode($row['ngayhd']) ?></td>
                 </tr>
             <?php endforeach; ?>
         </tbody>
     </table>
 <?php else: ?>
-    <p>No records found.</p>
+    <p>No products found for this customer.</p>
 <?php endif; ?>
