@@ -16,9 +16,6 @@ use yii\helpers\Url;
 <?php if ($customer): ?>
     <div class="customer-details" style="margin-top: 20px; padding: 10px; border: 1px solid #ccc;">
         <h3>Customer Details</h3>
-        <p><strong>Mã KH:</strong> <?= Html::encode($customer['makh']) ?></p>
-        <p><strong>Họ:</strong> <?= Html::encode($customer['ho']) ?></p>
-        <p><strong>Tên:</strong> <?= Html::encode($customer['ten']) ?></p>
         <p><strong>Giới Tính:</strong> <?= $customer['gioitinh'] == 1 ? 'Nam' : 'Nữ' ?></p>
         <p><strong>Địa Chỉ:</strong> <?= Html::encode($customer['diachi']) ?></p>
         <p><strong>Số ĐT:</strong> <?= Html::encode($customer['sodt']) ?></p>
@@ -62,6 +59,12 @@ use yii\helpers\Url;
             <?php endforeach; ?>
         </tbody>
     </table>
+
+    <!-- Pagination Links -->
+    <?= yii\widgets\LinkPager::widget([
+        'pagination' => $pagination,
+    ]) ?>
+
 <?php else: ?>
     <p>No products found for this customer.</p>
 <?php endif; ?>

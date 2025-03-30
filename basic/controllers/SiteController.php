@@ -9,6 +9,7 @@ use yii\web\Response;
 use yii\filters\VerbFilter;
 use app\models\LoginForm;
 use app\models\ContactForm;
+use yii\data\Pagination;
 
 class SiteController extends Controller
 {
@@ -61,37 +62,22 @@ class SiteController extends Controller
      */
     public function actionIndex()
     {
-        // Get makh from URL parameters
-        $makh = Yii::$app->request->get('makh', '');
+        $makh = Yii::$app->request->get('makh', ''); // Get makh from URL
+        $customer = $this->findCustomer($makh); // Fetch customer details
 
-        // Fetch customer details based on makh
-        $customer = $this->findCustomer($makh);
+        // Fetch paginated data and pagination object
+        list($data, $pagination) = $this->getPaginatedData($makh);
 
-        // SQL query to retrieve purchased product information
-        $sql = "SELECT sanpham.masp, sanpham.tensp, sanpham.dvt, sanpham.nuocsx, sanpham.gia, 
-                       cthd.soluong, hoadon.sohd, hoadon.ngayhd
-                FROM khachhang
-                JOIN hoadon ON khachhang.makh = hoadon.makh
-                JOIN cthd ON hoadon.sohd = cthd.sohd
-                JOIN sanpham ON cthd.masp = sanpham.masp";
-
-        // If a specific makh is provided, filter by customer ID (makh)
-        if (!empty($makh)) {
-            $sql .= " WHERE khachhang.makh = :makh";
-            $data = Yii::$app->db->createCommand($sql)->bindValue(':makh', $makh)->queryAll();
-        } else {
-            $data = Yii::$app->db->createCommand($sql)->queryAll();
-        }
-
-        // Render the index view and pass necessary data
+        // Render the view with the data and pagination info
         return $this->render('index', [
             'data' => $data,
             'makh' => $makh,
             'customer' => $customer,
+            'pagination' => $pagination,
         ]);
     }
 
-    //Find the customer
+    // Helper method to fetch customer details based on makh
     private function findCustomer($makh)
     {
         if (empty($makh)) {
@@ -101,6 +87,45 @@ class SiteController extends Controller
         return Yii::$app->db->createCommand("SELECT * FROM khachhang WHERE makh = :makh")
             ->bindValue(':makh', $makh)
             ->queryOne();
+    }
+
+    private function getPaginatedData($makh)
+    {
+        // Base SQL query to retrieve purchased product information
+        $sql = "SELECT khachhang.makh, khachhang.ho, khachhang.ten, 
+                       sanpham.masp, sanpham.tensp, sanpham.dvt, sanpham.nuocsx, sanpham.gia, 
+                       cthd.soluong, hoadon.sohd, hoadon.ngayhd
+                FROM khachhang
+                JOIN hoadon ON khachhang.makh = hoadon.makh
+                JOIN cthd ON hoadon.sohd = cthd.sohd
+                JOIN sanpham ON cthd.masp = sanpham.masp";
+    
+        // If makh is provided, filter by customer ID
+        if (!empty($makh)) {
+            $sql .= " WHERE khachhang.makh = :makh";
+        }
+    
+        // Get total number of records (for pagination)
+        $totalCount = Yii::$app->db->createCommand($sql)
+            ->bindValue(':makh', $makh)
+            ->queryScalar(); // Returns a scalar value (total count)
+    
+        // Create pagination object
+        $pagination = new Pagination([
+            'totalCount' => $totalCount,  // Total number of records
+            'pageSize' => 10,             // Number of records per page
+        ]);
+    
+        // Modify query to use LIMIT and OFFSET for pagination
+        $sql .= " LIMIT :limit OFFSET :offset";
+        $data = Yii::$app->db->createCommand($sql)
+            ->bindValue(':makh', $makh)
+            ->bindValue(':limit', $pagination->limit)
+            ->bindValue(':offset', $pagination->offset)
+            ->queryAll();
+    
+        // Return data and pagination object
+        return [$data, $pagination];
     }
 
     /**
