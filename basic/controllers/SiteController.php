@@ -89,44 +89,53 @@ class SiteController extends Controller
             ->queryOne();
     }
 
+
     private function getPaginatedData($makh)
     {
-        // Base SQL query to retrieve purchased product information
-        $sql = "SELECT khachhang.makh, khachhang.ho, khachhang.ten, 
-                       sanpham.masp, sanpham.tensp, sanpham.dvt, sanpham.nuocsx, sanpham.gia, 
-                       cthd.soluong, hoadon.sohd, hoadon.ngayhd
-                FROM khachhang
-                JOIN hoadon ON khachhang.makh = hoadon.makh
-                JOIN cthd ON hoadon.sohd = cthd.sohd
-                JOIN sanpham ON cthd.masp = sanpham.masp";
-    
+        // Base SQL query to retrieve purchased product information grouped by invoice (hoadon.sohd)
+            // Base SQL query to retrieve purchased product information
+            $sql = "SELECT sanpham.masp, sanpham.tensp, sanpham.dvt, sanpham.nuocsx, sanpham.gia, 
+                        cthd.soluong, hoadon.sohd, hoadon.ngayhd
+                    FROM khachhang
+                    JOIN hoadon ON khachhang.makh = hoadon.makh
+                    JOIN cthd ON hoadon.sohd = cthd.sohd
+                    JOIN sanpham ON cthd.masp = sanpham.masp";
+
         // If makh is provided, filter by customer ID
         if (!empty($makh)) {
             $sql .= " WHERE khachhang.makh = :makh";
         }
-    
-        // Get total number of records (for pagination)
+
+        // Group by hoadon.sohd to group by invoice
+        $sql .= " GROUP BY hoadon.sohd";
+
+        // Get total number of invoices (for pagination)
         $totalCount = Yii::$app->db->createCommand($sql)
             ->bindValue(':makh', $makh)
-            ->queryScalar(); // Returns a scalar value (total count)
-    
+            ->queryScalar(); // Returns the total number of invoices for pagination
+
         // Create pagination object
         $pagination = new Pagination([
-            'totalCount' => $totalCount,  // Total number of records
-            'pageSize' => 10,             // Number of records per page
+            'totalCount' => $totalCount,  // Total number of invoices (sohd)
+            'pageSize' => 1,             // Number of invoices per page
         ]);
-    
-        // Modify query to use LIMIT and OFFSET for pagination
+        var_dump($totalCount);
+
+        // Modify query to use LIMIT and OFFSET for pagination (pagination is done per invoice)
         $sql .= " LIMIT :limit OFFSET :offset";
+        
+        // Fetch the paginated data
         $data = Yii::$app->db->createCommand($sql)
             ->bindValue(':makh', $makh)
             ->bindValue(':limit', $pagination->limit)
             ->bindValue(':offset', $pagination->offset)
             ->queryAll();
-    
+
         // Return data and pagination object
         return [$data, $pagination];
     }
+
+
 
     /**
      * Login action.

@@ -1,6 +1,7 @@
 <?php
 use yii\helpers\Html;
 use yii\helpers\Url;
+use yii\widgets\LinkPager; // Ensure LinkPager is imported
 ?>
 
 <h1>Customer and Product Purchase Information</h1>
@@ -60,11 +61,12 @@ use yii\helpers\Url;
         </tbody>
     </table>
 
-    <!-- Pagination Links -->
-    <?= yii\widgets\LinkPager::widget([
-        'pagination' => $pagination,
+    <!-- Pagination links -->
+    <?= LinkPager::widget([
+        'pagination' => $pagination,  // Make sure pagination object is passed here
     ]) ?>
 
+<?= var_dump($pagination); ?>
 <?php else: ?>
     <p>No products found for this customer.</p>
 <?php endif; ?>
