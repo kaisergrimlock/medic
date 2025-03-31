@@ -96,14 +96,15 @@ class SiteController extends Controller
     
         // Step 1: Get distinct invoices (hoadon.sohd) for pagination
         $sqlCount = "SELECT COUNT(DISTINCT hoadon.sohd) 
-                     FROM khachhang
-                     JOIN hoadon ON khachhang.makh = hoadon.makh
-                     JOIN cthd ON hoadon.sohd = cthd.sohd
-                     JOIN sanpham ON cthd.masp = sanpham.masp";
-    
+        FROM hoadon
+        JOIN cthd ON hoadon.sohd = cthd.sohd
+        JOIN sanpham ON cthd.masp = sanpham.masp
+        JOIN nhanvien ON hoadon.manv = nhanvien.manv";
+
         if (!empty($makh)) {
-            $sqlCount .= " WHERE khachhang.makh = :makh";
+        $sqlCount .= " WHERE hoadon.makh = :makh";
         }
+
     
         $command = $db->createCommand($sqlCount);
         if (!empty($makh)) {
@@ -144,10 +145,11 @@ class SiteController extends Controller
     
         // Step 4: Fetch detailed product purchase information for selected invoices
         $sqlData = "SELECT sanpham.masp, sanpham.tensp, sanpham.dvt, sanpham.nuocsx, sanpham.gia, 
-                           cthd.soluong, hoadon.sohd, hoadon.ngayhd
+                           cthd.soluong, hoadon.sohd, hoadon.ngayhd, nhanvien.manv, nhanvien.hoten
                     FROM hoadon
                     JOIN cthd ON hoadon.sohd = cthd.sohd
                     JOIN sanpham ON cthd.masp = sanpham.masp
+                    JOIN nhanvien ON hoadon.manv = nhanvien.manv
                     WHERE hoadon.sohd IN (" . implode(',', array_fill(0, count($sohdResults), '?')) . ")
                     ORDER BY hoadon.sohd";
     

@@ -31,6 +31,15 @@ use yii\widgets\LinkPager; // Ensure LinkPager is imported
 
 <!-- Purchased Products Table -->
 <?php if (!empty($data)): ?>
+    <!-- Invoice Details -->
+    <div class="invoice-details" style="margin-top: 20px; padding: 10px; border: 1px solid #ccc;">
+        <h3>Invoice Details</h3>
+        <p><strong>Invoice No:</strong> <?= Html::encode($data[0]['sohd']) ?></p>
+        <p><strong>Invoice Date:</strong> <?= Html::encode($data[0]['ngayhd']) ?></p>
+        <p><strong>staff Name:</strong> <?= Html::encode($data[0]['hoten']) ?></p>
+    </div>
+
+
     <h3>Purchased Products</h3>
     <table class="table table-bordered">
         <thead>
@@ -41,8 +50,6 @@ use yii\widgets\LinkPager; // Ensure LinkPager is imported
                 <th>Country</th>
                 <th>Price</th>
                 <th>Quantity</th>
-                <th>Invoice No</th>
-                <th>Invoice Date</th>
             </tr>
         </thead>
         <tbody>
@@ -54,17 +61,28 @@ use yii\widgets\LinkPager; // Ensure LinkPager is imported
                     <td><?= Html::encode($row['nuocsx']) ?></td>
                     <td><?= Html::encode($row['gia']) ?></td>
                     <td><?= Html::encode($row['soluong']) ?></td>
-                    <td><?= Html::encode($row['sohd']) ?></td>
-                    <td><?= Html::encode($row['ngayhd']) ?></td>
                 </tr>
             <?php endforeach; ?>
         </tbody>
     </table>
 
     <!-- Pagination links -->
-    <?= LinkPager::widget([
-        'pagination' => $pagination,  // Make sure pagination object is passed here
-    ]) ?>
+    <div class="pagination-buttons">
+        <?php if ($pagination->page > 0): ?>
+            <a href="<?= Url::to(['site/index', 'makh' => $makh, 'page' => $pagination->page]) ?>">
+                <button>Previous</button>
+            </a>
+        <?php endif; ?>
+
+        <span> <?= $pagination->page + 1 ?> / <?= $pagination->pageCount ?></span>
+
+        <?php if ($pagination->page < $pagination->pageCount - 1): ?>
+            <a href="<?= Url::to(['site/index', 'makh' => $makh, 'page' => $pagination->page + 2]) ?>">
+                <button>Next</button>
+            </a>
+        <?php endif; ?>
+    </div>
+
 
 <?php else: ?>
     <p>No products found for this customer.</p>
