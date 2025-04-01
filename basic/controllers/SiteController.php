@@ -14,7 +14,7 @@ use yii\data\Pagination;
 class SiteController extends Controller
 {
     /**
-     * {@inheritdoc}
+     * Define behaviors for access control and request methods.
      */
     public function behaviors()
     {
@@ -26,21 +26,21 @@ class SiteController extends Controller
                     [
                         'actions' => ['logout'],
                         'allow' => true,
-                        'roles' => ['@'],
+                        'roles' => ['@'], // Only authenticated users can logout
                     ],
                 ],
             ],
             'verbs' => [
                 'class' => VerbFilter::class,
                 'actions' => [
-                    'logout' => ['post'],
+                    'logout' => ['post'], // Logout should be done via POST request
                 ],
             ],
         ];
     }
 
     /**
-     * {@inheritdoc}
+     * Define external actions like error handling and CAPTCHA.
      */
     public function actions()
     {
@@ -56,13 +56,13 @@ class SiteController extends Controller
     }
 
     /**
-     * Displays homepage.
+     * Displays homepage with paginated customer invoices.
      *
      * @return string
      */
     public function actionIndex()
     {
-        $makh = Yii::$app->request->get('makh', ''); // Get makh from URL
+        $makh = Yii::$app->request->get('makh', ''); // Get customer ID from URL
         $customer = $this->findCustomer($makh); // Fetch customer details
 
         // Fetch paginated data and pagination object
@@ -77,7 +77,12 @@ class SiteController extends Controller
         ]);
     }
 
-    // Helper method to fetch customer details based on makh
+    /**
+     * Fetch customer details based on customer ID.
+     *
+     * @param string $makh
+     * @return array|null
+     */
     private function findCustomer($makh)
     {
         if (empty($makh)) {
@@ -89,12 +94,17 @@ class SiteController extends Controller
             ->queryOne();
     }
 
-
+    /**
+     * Fetch paginated invoices and related product details.
+     *
+     * @param string $makh
+     * @return array
+     */
     private function getPaginatedData($makh)
     {
         $db = Yii::$app->db;
     
-        // Step 1: Get distinct invoices (hoadon.sohd) for pagination
+        // Step 1: Get the total count of distinct invoices
         $sqlCount = "SELECT COUNT(DISTINCT hoadon.sohd) 
         FROM hoadon
         JOIN cthd ON hoadon.sohd = cthd.sohd
@@ -102,9 +112,8 @@ class SiteController extends Controller
         JOIN nhanvien ON hoadon.manv = nhanvien.manv";
 
         if (!empty($makh)) {
-        $sqlCount .= " WHERE hoadon.makh = :makh";
+            $sqlCount .= " WHERE hoadon.makh = :makh";
         }
-
     
         $command = $db->createCommand($sqlCount);
         if (!empty($makh)) {
@@ -118,7 +127,7 @@ class SiteController extends Controller
             'pageSize' => 1, // Each page shows one invoice's details
         ]);
     
-        // Step 3: Fetch paginated invoices (sohd)
+        // Step 3: Fetch distinct invoice numbers for pagination
         $sqlSohd = "SELECT DISTINCT hoadon.sohd 
                     FROM hoadon
                     JOIN cthd ON hoadon.sohd = cthd.sohd
@@ -143,7 +152,7 @@ class SiteController extends Controller
             return [[], $pagination]; // No data found
         }
     
-        // Step 4: Fetch detailed product purchase information for selected invoices
+        // Step 4: Fetch invoice details including products and employee info
         $sqlData = "SELECT sanpham.masp, sanpham.tensp, sanpham.dvt, sanpham.nuocsx, sanpham.gia, 
                            cthd.soluong, hoadon.sohd, hoadon.ngayhd, nhanvien.manv, nhanvien.hoten
                     FROM hoadon
@@ -163,12 +172,8 @@ class SiteController extends Controller
         return [$data, $pagination];
     }
 
-
-
     /**
      * Login action.
-     *
-     * @return Response|string
      */
     public function actionLogin()
     {
@@ -189,29 +194,19 @@ class SiteController extends Controller
 
     /**
      * Logout action.
-     *
-     * @return Response
      */
     public function actionLogout()
     {
         Yii::$app->user->logout();
-
         return $this->goHome();
     }
 
     /**
      * Displays contact page.
-     *
-     * @return Response|string
      */
     public function actionContact()
     {
         $model = new ContactForm();
-        if ($model->load(Yii::$app->request->post()) && $model->contact(Yii::$app->params['adminEmail'])) {
-            Yii::$app->session->setFlash('contactFormSubmitted');
-
-            return $this->refresh();
-        }
         return $this->render('contact', [
             'model' => $model,
         ]);
@@ -219,8 +214,6 @@ class SiteController extends Controller
 
     /**
      * Displays about page.
-     *
-     * @return string
      */
     public function actionAbout()
     {

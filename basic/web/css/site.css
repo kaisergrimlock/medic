@@ -86,3 +86,114 @@ a.desc:after {
 .form-group {
     margin-bottom: 1rem;
 }
+
+#index-heading{
+    text-align: center;
+}
+
+.invoice-details{
+    display: flex;
+    margin-top: 16px;
+}
+
+.invoice-data{
+    color: darkblue;
+    margin-right: 15px;
+    margin-left: 5px;
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.invoice-type{
+    font-size: 16px;
+    font-weight: bolder;
+}
+
+.pagination-buttons {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+}
+
+.pagination-button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 35px;
+    height: 35px;
+    background-color: white;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    text-decoration: none;
+    font-size: 18px;
+    font-weight: bold;
+    color: #333;
+    transition: background-color 0.2s, transform 0.2s;
+}
+
+.pagination-button:hover {
+    background-color: #007bff;
+    color: white;
+    transform: scale(1.1);
+    margin-right: 5px;
+    margin-left: 5px;
+}
+
+.pagination-info {
+    font-size: 16px;
+    font-weight: bold;
+    color: #333;
+}
+
+.customer-details {
+    background-color: #d1f0f9; /* Light blue background to match the UI */
+    padding: 15px;
+    border-radius: 5px;
+    width: fit-content;
+    padding: 5px;
+    margin: auto;
+    margin-bottom: 10px;
+    margin-top: 10px;
+}
+
+.customer-info-section {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 15px;
+}
+
+.customer-info-block {
+    display: flex;
+    flex-direction: column;
+    min-width: 200px;
+}
+
+.customer-info-block p {
+    margin: 2px 0;
+}
+
+.customer-info {
+    background-color: white;
+    border: 1px solid #ccc;
+    padding: 5px 10px;
+    border-radius: 3px;
+    min-width: 180px;
+    min-height: 40px;
+}
+
+input[type="checkbox"] {
+    transform: scale(1.2);
+    margin-left: 5px;
+    vertical-align: middle;
+}
+
+#address {
+    flex-grow: 2; /* Allows the address field to take more space */
+    min-width: 400px; /* Ensures it is much longer */
+}
+
+.invoice-header{
+    display: flex;
+    justify-items: space-between;
+}
