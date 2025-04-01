@@ -215,3 +215,21 @@ input[type="checkbox"] {
     display: flex;
     justify-items: space-between;
 }
+
+.ops-button-container {
+    display: flex;
+    gap: 10px; /* Spacing between buttons */
+    justify-content: center; /* Center buttons horizontally */
+    margin: 20px 0; /* Add margin around the container */
+}
+
+.ops-button {
+    padding: 10px 20px; /* Padding inside the button */
+    font-size: 16px; /* Font size for text */
+    border: 1px solid #007bff; /* Blue border */
+    border-radius: 5px; /* Rounded corners */
+    background-color: #007bff; /* Blue background */
+    color: white; /* Text color */
+    cursor: pointer; /* Show pointer cursor on hover */
+    transition: background-color 0.3s ease, transform 0.3s ease; /* Smooth transitions for hover */
+}

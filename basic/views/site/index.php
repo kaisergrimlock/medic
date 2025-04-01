@@ -60,8 +60,23 @@
     <p>No customer found with Mã KH: <?= Html::encode($makh) ?></p>
 <?php endif; ?>
 
+<div class="ops-button-container">
+    <button class="ops-button" id="save-button">
+        [L]ưu HĐ
+    </button>
+    <button class="ops-button" id="print-button">
+        [I]n HĐ
+    </button>
+    <button class="ops-button" id="add-button">
+        [T]hêm HĐ
+    </button>
+    <button class="ops-button" id="cust-button">
+        Sửa KH [B]
+    </button>
+</div>
+
 <!-- Purchased Products Table -->
-<?php if (!empty($data) || $customer): ?>
+<?php if (!empty($data) && $customer): ?>
     <!-- Invoice Details -->
     <div class="invoice-header">
         <div class="invoice-details">
@@ -89,7 +104,6 @@
             </div>
         </div>
     </div>
-
 
     <table class="table table-bordered table-striped">
         <thead>
