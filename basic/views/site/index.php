@@ -61,7 +61,7 @@
 <?php endif; ?>
 
 <!-- Purchased Products Table -->
-<?php if (!empty($data)): ?>
+<?php if (!empty($data) || $customer): ?>
     <!-- Invoice Details -->
     <div class="invoice-header">
         <div class="invoice-details">
@@ -97,7 +97,6 @@
                 <th>Mã Sản Phẩm</th>
                 <th>Tên Sản Phẩm</th>
                 <th>ĐTV</th>
-                <th>Country</th>
                 <th>Đơn Giá</th>
                 <th>Số Lượng</th>
             </tr>
@@ -108,7 +107,6 @@
                     <td><?= Html::encode($row['masp']) ?></td>
                     <td><?= Html::encode($row['tensp']) ?></td>
                     <td><?= Html::encode($row['dvt']) ?></td>
-                    <td><?= Html::encode($row['nuocsx']) ?></td>
                     <td><?= Html::encode($row['gia']) ?></td>
                     <td><?= Html::encode($row['soluong']) ?></td>
                 </tr>
