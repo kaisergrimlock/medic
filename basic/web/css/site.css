@@ -109,10 +109,30 @@ a.desc:after {
     font-weight: bolder;
 }
 
+.invoice-header {
+    display: flex;
+    justify-content: space-between; /* Moves pagination to the right */
+    align-items: center;
+    width: 100%;
+}
+
+.invoice-details {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.pagination-container {
+    display: flex;
+    justify-content: flex-end; /* Ensures pagination stays at the end */
+    flex-grow: 1; /* Pushes pagination to the right */
+}
+
 .pagination-buttons {
     display: flex;
     align-items: center;
-    padding: 10px;
+    gap: 10px;
+    padding: 8px 15px;
 }
 
 .pagination-button {
@@ -135,8 +155,6 @@ a.desc:after {
     background-color: #007bff;
     color: white;
     transform: scale(1.1);
-    margin-right: 5px;
-    margin-left: 5px;
 }
 
 .pagination-info {

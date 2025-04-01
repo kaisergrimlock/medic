@@ -35,7 +35,7 @@
             </div>
             <div class="customer-info-block">
                 <p><strong>Nam:</strong></p>
-                <p class="customer-info">
+                <p class="customer-info" id="gender">
                     <input type="checkbox" <?= $customer['gioitinh'] == 1 ? 'checked' : '' ?> disabled>
                 </p>
             </div>
@@ -70,7 +70,7 @@
             <p class="invoice-type"><strong>NV bán hàng:</strong></p> <p class="invoice-data"><?= Html::encode($data[0]['hoten']) ?></p>
         </div>
 
-        <!-- Pagination links -->
+        <!-- Pagination links moved to align right -->
         <div class="pagination-container">
             <div class="pagination-buttons">
                 <?php if ($pagination->page > 0): ?>
@@ -88,19 +88,18 @@
                 <?php endif; ?>
             </div>
         </div>
-
     </div>
 
 
-    <table class="table table-bordered">
+    <table class="table table-bordered table-striped">
         <thead>
             <tr>
-                <th>Product ID</th>
-                <th>Product Name</th>
-                <th>Unit</th>
+                <th>Mã Sản Phẩm</th>
+                <th>Tên Sản Phẩm</th>
+                <th>ĐTV</th>
                 <th>Country</th>
-                <th>Price</th>
-                <th>Quantity</th>
+                <th>Đơn Giá</th>
+                <th>Số Lượng</th>
             </tr>
         </thead>
         <tbody>
