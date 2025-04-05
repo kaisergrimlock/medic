@@ -6,59 +6,79 @@
 
 <h1 id="index-heading">Thông Tin Khách Hàng</h1>
 
-<!-- Search Form -->
-<form method="GET" action="<?= Url::to(['site/index']) ?>">
-    <label for="makh">Search by Customer ID (makh):</label>
-    <input type="text" name="makh" id="makh" value="<?= Html::encode($makh) ?>" />
-    <button type="submit">Search</button>
-</form>
-
 <!-- Customer Details -->
-<?php if ($customer): ?>
-    <div class="customer-details">
-        <div class="customer-info-section">
-            <div class="customer-info-block">
-                <p><strong>Mã KH:</strong></p>
-                <p class="customer-info"><?= Html::encode($customer['makh']) ?></p>
-            </div>
-            <div class="customer-info-block">
-                <p><strong>Họ KH:</strong></p>
+<div class="customer-details">
+    <div class="customer-info-section">
+        <div class="customer-info-block">
+            <p><strong>Mã KH:</strong></p>
+            <form method="GET" action="<?= Url::to(['site/index']) ?>">
+                    <input class="customer-info" type="text" name="makh" id="makh" value="<?= Html::encode($makh) ?>" />
+            </form>
+        </div>
+        <div class="customer-info-block">
+            <p><strong>Họ KH:</strong></p>
+            <?php if ($customer): ?>
                 <p class="customer-info"><?= Html::encode($customer['ho']) ?></p>
-            </div>
-            <div class="customer-info-block">
-                <p><strong>Tên KH:</strong></p>
+            <?php elseif (!empty($makh)): ?>
+                <p></p>
+            <?php endif; ?>
+        </div>
+        <div class="customer-info-block">
+            <p><strong>Tên KH:</strong></p>
+            <?php if ($customer): ?>
                 <p class="customer-info"><?= Html::encode($customer['ten']) ?></p>
-            </div>
-            <div class="customer-info-block">
-                <p><strong>Năm Sinh:</strong></p>
+            <?php elseif (!empty($makh)): ?>
+                <p></p>
+            <?php endif; ?>
+        </div>
+        <div class="customer-info-block">
+            <p><strong>Năm Sinh:</strong></p>
+            <?php if ($customer): ?>
                 <p class="customer-info"><?= Html::encode($customer['ngaysinh']) ?></p>
-            </div>
-            <div class="customer-info-block">
-                <p><strong>Nam:</strong></p>
+            <?php elseif (!empty($makh)): ?>
+                <p></p>
+            <?php endif; ?>
+        </div>
+        <div class="customer-info-block">
+            <p><strong>Nam:</strong></p>
+            <?php if ($customer): ?>
                 <p class="customer-info" id="gender">
                     <input type="checkbox" <?= $customer['gioitinh'] == 1 ? 'checked' : '' ?> disabled>
                 </p>
-            </div>
-        </div>
-
-        <div class="customer-info-section">
-            <div class="customer-info-block">
-                <p><strong>Điện thoại:</strong></p>
-                <p class="customer-info"><?= Html::encode($customer['sodt']) ?></p>
-            </div>
-            <div class="customer-info-block" id="address">
-                <p><strong>Địa chỉ:</strong></p>
-                <p class="customer-info"><?= Html::encode($customer['diachi']) ?></p>
-            </div>
-            <div class="customer-info-block">
-                <p><strong>Nghề nghiệp:</strong></p>
-                <p class="customer-info"><?= Html::encode(!empty($customer['nghenghiep']) ? $customer['nghenghiep'] : '') ?></p>
-            </div>
+            <?php elseif (!empty($makh)): ?>
+                <p></p>
+            <?php endif; ?>
         </div>
     </div>
-<?php elseif (!empty($makh)): ?>
-    <p>No customer found with Mã KH: <?= Html::encode($makh) ?></p>
-<?php endif; ?>
+
+    <div class="customer-info-section">
+        <div class="customer-info-block">
+            <p><strong>Điện thoại:</strong></p>
+            <?php if ($customer): ?>
+                <p class="customer-info"><?= Html::encode($customer['sodt']) ?></p>
+            <?php elseif (!empty($makh)): ?>
+                <p></p>
+            <?php endif; ?>
+        </div>
+        <div class="customer-info-block" id="address">
+            <p><strong>Địa chỉ:</strong></p>
+            <?php if ($customer): ?>
+                <p class="customer-info"><?= Html::encode($customer['diachi']) ?></p>
+            <?php elseif (!empty($makh)): ?>
+                <p></p>
+            <?php endif; ?>
+        </div>
+        <div class="customer-info-block">
+            <p><strong>Nghề nghiệp:</strong></p>
+            <?php if ($customer): ?>
+                <p class="customer-info"><?= Html::encode(!empty($customer['nghenghiep']) ? $customer['nghenghiep'] : '') ?></p>
+            <?php elseif (!empty($makh)): ?>
+                <p></p>
+            <?php endif; ?>
+        </div>
+    </div>
+</div>
+
 
 <div class="ops-button-container">
     <button class="ops-button" id="save-button">
