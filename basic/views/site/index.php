@@ -12,72 +12,45 @@
         <div class="customer-info-block">
             <p><strong>Mã KH:</strong></p>
             <form method="GET" action="<?= Url::to(['site/index']) ?>">
-                    <input class="customer-info" type="text" name="makh" id="makh" value="<?= Html::encode($makh) ?>" />
+                <input class="customer-info" type="text" name="makh" id="makh" value="<?= Html::encode($makh ?? '') ?>" />
             </form>
         </div>
         <div class="customer-info-block">
             <p><strong>Họ KH:</strong></p>
-            <?php if ($customer): ?>
-                <p class="customer-info"><?= Html::encode($customer['ho']) ?></p>
-            <?php elseif (!empty($makh)): ?>
-                <p></p>
-            <?php endif; ?>
+            <p class="customer-info"><?= Html::encode($customer['ho'] ?? '') ?></p>
         </div>
         <div class="customer-info-block">
             <p><strong>Tên KH:</strong></p>
-            <?php if ($customer): ?>
-                <p class="customer-info"><?= Html::encode($customer['ten']) ?></p>
-            <?php elseif (!empty($makh)): ?>
-                <p></p>
-            <?php endif; ?>
+            <p class="customer-info"><?= Html::encode($customer['ten'] ?? '') ?></p>
         </div>
         <div class="customer-info-block">
             <p><strong>Năm Sinh:</strong></p>
-            <?php if ($customer): ?>
-                <p class="customer-info"><?= Html::encode($customer['ngaysinh']) ?></p>
-            <?php elseif (!empty($makh)): ?>
-                <p></p>
-            <?php endif; ?>
+            <p class="customer-info"><?= Html::encode($customer['ngaysinh'] ?? '') ?></p>
         </div>
         <div class="customer-info-block">
             <p><strong>Nam:</strong></p>
-            <?php if ($customer): ?>
-                <p class="customer-info" id="gender">
-                    <input type="checkbox" <?= $customer['gioitinh'] == 1 ? 'checked' : '' ?> disabled>
-                </p>
-            <?php elseif (!empty($makh)): ?>
-                <p></p>
-            <?php endif; ?>
+            <p id="gender">
+                <input type="checkbox" <?= isset($customer['gioitinh']) && $customer['gioitinh'] == 1 ? 'checked' : '' ?> disabled>
+            </p>
         </div>
     </div>
 
     <div class="customer-info-section">
         <div class="customer-info-block">
             <p><strong>Điện thoại:</strong></p>
-            <?php if ($customer): ?>
-                <p class="customer-info"><?= Html::encode($customer['sodt']) ?></p>
-            <?php elseif (!empty($makh)): ?>
-                <p></p>
-            <?php endif; ?>
+            <p class="customer-info"><?= Html::encode($customer['sodt'] ?? '') ?></p>
         </div>
         <div class="customer-info-block" id="address">
             <p><strong>Địa chỉ:</strong></p>
-            <?php if ($customer): ?>
-                <p class="customer-info"><?= Html::encode($customer['diachi']) ?></p>
-            <?php elseif (!empty($makh)): ?>
-                <p></p>
-            <?php endif; ?>
+            <p class="customer-info"><?= Html::encode($customer['diachi'] ?? '') ?></p>
         </div>
         <div class="customer-info-block">
             <p><strong>Nghề nghiệp:</strong></p>
-            <?php if ($customer): ?>
-                <p class="customer-info"><?= Html::encode(!empty($customer['nghenghiep']) ? $customer['nghenghiep'] : '') ?></p>
-            <?php elseif (!empty($makh)): ?>
-                <p></p>
-            <?php endif; ?>
+            <p class="customer-info"><?= Html::encode($customer['nghenghiep'] ?? '') ?></p>
         </div>
     </div>
 </div>
+
 
 
 <div class="ops-button-container">
