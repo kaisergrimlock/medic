@@ -3,9 +3,32 @@ namespace app\models;
 
 use Yii;
 use yii\data\Pagination;
+use yii\db\ActiveRecord;
 
-class Customer
+class Customer extends ActiveRecord
 {
+    /**
+     * Define the table name.
+     */
+    public static function tableName()
+    {
+        return 'khachhang'; // Replace with your actual table name
+    }
+
+    /**
+     * Define validation rules for the form fields.
+     */
+    public function rules()
+    {
+        return [
+            [['makh', 'name', 'address', 'phone', 'email'], 'required'],
+            [['makh'], 'string', 'max' => 10],
+            [['name', 'address'], 'string', 'max' => 255],
+            [['phone'], 'string', 'max' => 15],
+            [['email'], 'email'],
+        ];
+    }
+
     /**
      * Get customer details by ID.
      */

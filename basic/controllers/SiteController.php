@@ -116,6 +116,21 @@ class SiteController extends Controller
     }
 
     /**
+     * Displays admin page.
+     */
+    public function actionAdmin()
+    {
+        // Create an instance of the Customer model
+        $model = new \app\models\Customer();
+
+        // Render the view and pass the model
+        return $this->render('admin', [
+            'model' => $model,
+        ]);
+    }
+    
+    
+    /**
      * Displays about page.
      */
     public function actionAbout()
