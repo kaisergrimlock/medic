@@ -26,21 +26,24 @@ class LoginForm extends Model
     {
         if (!$this->hasErrors()) {
             $user = $this->getUser();
-            // Assuming plaintext passwords for now:
-            if (!$user || $user->password !== $this -> password) {
+            if (!$user || !is_object($user) || $user->password !== $this->password) {
                 $this->addError($attribute, 'Incorrect username or password.');
             }
         }
     }
+    
 
     public function login()
     {
         if ($this->validate()) {
-            // Adjust the duration as needed; here it's 30 days if "remember me" is checked
-            return Yii::$app->user->login($this->getUser(), $this->rememberMe ? 3600 * 24 * 30 : 0);
+            $user = $this->getUser();
+            if ($user instanceof \yii\web\IdentityInterface) {
+                return Yii::$app->user->login($user, $this->rememberMe ? 3600 * 24 * 30 : 0);
+            }
         }
         return false;
     }
+    
 
 
     protected function getUser()
