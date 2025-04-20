@@ -124,10 +124,10 @@ class SiteController extends Controller
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             Yii::$app->session->setFlash('success', 'Khách hàng mới đã được lưu.');
-            return $this->redirect(['site/admin']); // Ensure the redirect points to the correct route
+            return $this->redirect(['site/admin_customer']); // Ensure the redirect points to the correct route
         }
 
-        return $this->render('admin', [
+        return $this->render('admin_customer', [
             'model' => $model,
         ]);
     }

@@ -15,8 +15,6 @@ $this->title = 'Thêm Khách Hàng';
 <div class="customer-form">
 
     <?php $form = ActiveForm::begin(); ?>
-
-    <?= $form->field($model, 'makh')->textInput(['maxlength' => true]) ?>
     <?= $form->field($model, 'ho')->textInput(['maxlength' => true]) ?>
     <?= $form->field($model, 'ten')->textInput(['maxlength' => true]) ?>
     <?= $form->field($model, 'gioitinh')->dropDownList([0 => 'Nam', 1 => 'Nữ']) ?>
