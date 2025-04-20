@@ -10,6 +10,7 @@ use yii\filters\VerbFilter;
 use app\models\LoginForm;
 use app\models\ContactForm;
 use app\models\Customer_2;
+use app\models\Product;
 
 
 class SiteController extends Controller
@@ -134,8 +135,16 @@ class SiteController extends Controller
 
     public function actionAdminProduct()
     {
-        // Implement product management logic here
-        return $this->render('admin/admin_product');
+        $model = new Product(); // Assuming you have a model for products as well
+
+        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            Yii::$app->session->setFlash('success', 'Sản phẩm mới đã được lưu.');
+            return $this->redirect(['site/admin']); // Corrected redirect URL
+        }
+
+        return $this->render('admin/admin_product', [
+            'model' => $model,
+        ]);
     }
 
     public function actionAdmin()
