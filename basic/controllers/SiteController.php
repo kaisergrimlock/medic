@@ -118,18 +118,29 @@ class SiteController extends Controller
     /**
      * Displays admin page.
      */
-    public function actionAdmin()
+    public function actionAdminCustomer()
     {
         $model = new Customer_2();
-
+    
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             Yii::$app->session->setFlash('success', 'Khách hàng mới đã được lưu.');
-            return $this->redirect(['site/admin_customer']); // Ensure the redirect points to the correct route
+            return $this->redirect(['site/admin']); // Corrected redirect URL
         }
-
-        return $this->render('admin_customer', [
+    
+        return $this->render('admin/admin_customer', [
             'model' => $model,
         ]);
+    }
+
+    public function actionAdminProduct()
+    {
+        // Implement product management logic here
+        return $this->render('admin/admin_product');
+    }
+
+    public function actionAdmin()
+    {
+        return $this->render('admin/admin');
     }
     
     /**
