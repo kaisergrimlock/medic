@@ -1,44 +1,38 @@
 <?php
 use yii\helpers\Html;
-use yii\widgets\ActiveForm;
-
-/* @var $this yii\web\View */
 
 $this->title = 'Admin Panel';
-$this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="site-admin">
-    <h1><?= Html::encode($this->title) ?></h1>
+<?php
+use yii\widgets\ActiveForm;
 
-    <p>Welcome to the administration panel. Use the form below to manage customer data:</p>
+$this->title = 'Thêm Khách Hàng';
+?>
 
-    <div class="customer-form">
-        <?php $form = ActiveForm::begin(); ?>
+<h1><?= Html::encode($this->title) ?></h1>
 
-        <div class="form-group">
-            <?= $form->field($model, 'makh')->textInput(['placeholder' => 'Customer ID']) ?>
-        </div>
+<div class="customer-form">
 
-        <div class="form-group">
-            <?= $form->field($model, 'name')->textInput(['placeholder' => 'Customer Name']) ?>
-        </div>
+    <?php $form = ActiveForm::begin(); ?>
 
-        <div class="form-group">
-            <?= $form->field($model, 'address')->textInput(['placeholder' => 'Address']) ?>
-        </div>
+    <?= $form->field($model, 'makh')->textInput(['maxlength' => true]) ?>
+    <?= $form->field($model, 'ho')->textInput(['maxlength' => true]) ?>
+    <?= $form->field($model, 'ten')->textInput(['maxlength' => true]) ?>
+    <?= $form->field($model, 'gioitinh')->dropDownList([0 => 'Nam', 1 => 'Nữ']) ?>
+    <?= $form->field($model, 'diachi')->textInput(['maxlength' => true]) ?>
+    <?= $form->field($model, 'sodt')->textInput(['maxlength' => true]) ?>
+    <?= $form->field($model, 'ngaysinh')->input('date') ?>
+    <?= $form->field($model, 'doanhso')->input('number') ?>
+    <?= $form->field($model, 'ngaydk')->input('date') ?>
+    <?= $form->field($model, 'nghenghiep')->textInput(['maxlength' => true]) ?>
 
-        <div class="form-group">
-            <?= $form->field($model, 'phone')->textInput(['placeholder' => 'Phone Number']) ?>
-        </div>
-
-        <div class="form-group">
-            <?= $form->field($model, 'email')->textInput(['placeholder' => 'Email Address']) ?>
-        </div>
-
-        <div class="form-group">
-            <?= Html::submitButton('Save', ['class' => 'btn btn-success']) ?>
-        </div>
-
-        <?php ActiveForm::end(); ?>
+    <div class="form-group">
+        <?= Html::submitButton('Lưu khách hàng', ['class' => 'btn btn-primary']) ?>
     </div>
+
+    <?php ActiveForm::end(); ?>
+
+</div>
+
 </div>

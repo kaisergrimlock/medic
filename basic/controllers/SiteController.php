@@ -6,11 +6,11 @@ use Yii;
 use app\models\Customer;
 use yii\filters\AccessControl;
 use yii\web\Controller;
-use yii\web\Response;
 use yii\filters\VerbFilter;
 use app\models\LoginForm;
 use app\models\ContactForm;
-use yii\data\Pagination;
+use app\models\Customer_2;
+
 
 class SiteController extends Controller
 {
@@ -120,15 +120,17 @@ class SiteController extends Controller
      */
     public function actionAdmin()
     {
-        // Create an instance of the Customer model
-        $model = new \app\models\Customer();
+        $model = new Customer_2();
 
-        // Render the view and pass the model
+        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            Yii::$app->session->setFlash('success', 'Khách hàng mới đã được lưu.');
+            return $this->redirect(['site/admin']); // Ensure the redirect points to the correct route
+        }
+
         return $this->render('admin', [
             'model' => $model,
         ]);
     }
-    
     
     /**
      * Displays about page.
