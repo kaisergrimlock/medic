@@ -283,3 +283,8 @@ input[type="checkbox"] {
     font-weight: bold;
     cursor: pointer;
 }
+
+#openModalBtn{
+    margin-bottom: 10px;
+    margin-right: 5px;
+}

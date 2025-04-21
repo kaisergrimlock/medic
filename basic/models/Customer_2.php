@@ -3,6 +3,7 @@ namespace app\models;
 
 use Yii;
 use yii\db\ActiveRecord;
+use yii\data\Pagination;
 
 class Customer_2 extends ActiveRecord
 {
@@ -29,6 +30,26 @@ class Customer_2 extends ActiveRecord
         ];
     }
 
+    public static function getPaginatedCustomers($pageSize = 10)
+    {
+        $query = self::find(); // Start the query
+
+        // Set up pagination
+        $pagination = new Pagination([
+            'defaultPageSize' => $pageSize,
+            'totalCount' => $query->count(),
+        ]);
+
+        // Get customers with the pagination
+        $customers = $query->offset($pagination->offset)
+            ->limit($pagination->limit)
+            ->all();
+
+        return [
+            'customers' => $customers,
+            'pagination' => $pagination,
+        ];
+    }
     
     /**
      * Automatically generate a unique customer ID (makh) before saving a new record.

@@ -1,14 +1,12 @@
 <?php
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
+use yii\widgets\LinkPager;
 
-$this->title = 'Admin Panel';
+$this->title = 'Quản Trị Khách Hàng';
 ?>
 
 <h1><?= Html::encode($this->title) ?></h1>
-
-<!-- Trigger Button -->
-<button id="openModalBtn" class="btn btn-primary">Thêm Khách Hàng</button>
 
 <!-- Modal -->
 <div id="customerModal" class="custom-modal">
@@ -34,6 +32,8 @@ $this->title = 'Admin Panel';
 </div>
 <div class="item-list">
     <h2>Danh Sách Khách Hàng</h2>
+    <!-- Trigger Button -->
+    <button id="openModalBtn" class="btn btn-primary">Thêm Khách Hàng</button>
     <table class="table table-bordered">
         <thead>
             <tr>
@@ -66,18 +66,48 @@ $this->title = 'Admin Panel';
             <?php endforeach; ?>
         </tbody>
     </table>
+
+    <!-- Pagination -->
+    <?php 
+        $currentPage = $pagination->page;
+        $pageCount = $pagination->pageCount;
+        $firstPageLabel = ($currentPage > 0) ? 'Đầu' : false;
+        $lastPageLabel = ($currentPage + 1 < $pageCount) ? 'Cuối' : false;
+        // Only show "<" if not on first page
+        $prevPageLabel = ($currentPage > 0) ? '<' : false;
+        // Only show ">" if not on last page
+        $nextPageLabel = ($currentPage + 1 < $pageCount) ? '>' : false;
+    ?>
+    <div class="pagination-bar">
+        <?= LinkPager::widget([
+        'pagination' => $pagination,
+        'firstPageLabel' => $firstPageLabel,
+        'lastPageLabel' => $lastPageLabel,
+        'prevPageLabel' => $prevPageLabel,
+        'nextPageLabel' => $nextPageLabel,
+        'options' => ['class' => 'pagination'],
+        'linkOptions' => ['class' => 'page-link'],
+        'activePageCssClass' => 'active',
+        'disabledPageCssClass' => 'disabled',
+        'maxButtonCount' => 5,
+        'hideOnSinglePage' => true,
+        ]) ?>
+    </div>
 </div>
 
 <!-- JS -->
 <script>
+// When the "openModalBtn" button is clicked, display the modal
 document.getElementById("openModalBtn").onclick = function () {
     document.getElementById("customerModal").style.display = "block";
 };
 
+// When the "closeModalBtn" button is clicked, hide the modal
 document.getElementById("closeModalBtn").onclick = function () {
     document.getElementById("customerModal").style.display = "none";
 };
 
+// When clicking anywhere outside the modal, hide the modal
 window.onclick = function (event) {
     if (event.target === document.getElementById("customerModal")) {
         document.getElementById("customerModal").style.display = "none";

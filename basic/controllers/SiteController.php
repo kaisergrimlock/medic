@@ -126,24 +126,27 @@ class SiteController extends Controller
     
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             Yii::$app->session->setFlash('success', 'Khách hàng mới đã được lưu.');
-            return $this->redirect(['site/admin_home']); // Corrected redirect URL
+            return $this->redirect(['site/admin-customer']); // Redirected to the same page after saving
         }
     
-        $customers = Customer_2::find()->all(); // fetch customers
+        // Get paginated customers from the model
+        $paginationData = Customer_2::getPaginatedCustomers(10);
+
         return $this->render('admin/admin_customer', [
             'model' => $model,
-            'customers' => $customers, // 🧠 pass it to the view
+            'customers' => $paginationData['customers'],
+            'pagination' => $paginationData['pagination'],
         ]);
     }
 
 
     public function actionAdminProduct()
     {
-        $model = new Product(); // Assuming you have a model for products as well
+        $model = new Product();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             Yii::$app->session->setFlash('success', 'Sản phẩm mới đã được lưu.');
-            return $this->redirect(['site/admin_home']); // Corrected redirect URL
+            return $this->redirect(['site/admin-product']); // Corrected redirect URL
         }
 
         return $this->render('admin/admin_product', [
@@ -157,10 +160,10 @@ class SiteController extends Controller
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             Yii::$app->session->setFlash('success', 'Nhân viên mới đã được lưu.');
-            return $this->redirect(['site/admin_home']); // Corrected redirect URL
+            return $this->redirect(['site/admin-staff']); // Corrected redirect URL
         }
 
-        return $this->render('admin/admin_staff', [
+        return $this->render('admin/admin', [
             'model' => $model,
         ]);
     }
