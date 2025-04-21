@@ -31,7 +31,6 @@ $this->title = 'Quản Trị Khách Hàng';
     </div>
 </div>
 <div class="item-list">
-    <h2>Danh Sách Khách Hàng</h2>
     <!-- Trigger Button -->
     <button id="openModalBtn" class="btn btn-primary">Thêm Khách Hàng</button>
     <table class="table table-bordered">
@@ -77,6 +76,10 @@ $this->title = 'Quản Trị Khách Hàng';
         $prevPageLabel = ($currentPage > 0) ? '<' : false;
         // Only show ">" if not on last page
         $nextPageLabel = ($currentPage + 1 < $pageCount) ? '>' : false;
+
+        $start = $pagination->offset + 1;
+        $end = $pagination->offset + count($customers);
+        $total = $pagination->totalCount;
     ?>
     <div class="pagination-bar">
         <?= LinkPager::widget([
@@ -92,6 +95,9 @@ $this->title = 'Quản Trị Khách Hàng';
         'maxButtonCount' => 5,
         'hideOnSinglePage' => true,
         ]) ?>
+        <p class="pagination-summary">
+            Hiển thị <?= $start ?>–<?= $end ?> trong tổng số <?= $total ?> khách hàng
+        </p>
     </div>
 </div>
 
