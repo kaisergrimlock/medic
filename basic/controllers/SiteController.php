@@ -11,6 +11,7 @@ use app\models\LoginForm;
 use app\models\ContactForm;
 use app\models\Customer_2;
 use app\models\Product;
+use app\models\Staff;
 
 
 class SiteController extends Controller
@@ -125,13 +126,16 @@ class SiteController extends Controller
     
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             Yii::$app->session->setFlash('success', 'Khách hàng mới đã được lưu.');
-            return $this->redirect(['site/admin']); // Corrected redirect URL
+            return $this->redirect(['site/admin_home']); // Corrected redirect URL
         }
     
+        $customers = Customer_2::find()->all(); // fetch customers
         return $this->render('admin/admin_customer', [
             'model' => $model,
+            'customers' => $customers, // 🧠 pass it to the view
         ]);
     }
+
 
     public function actionAdminProduct()
     {
@@ -139,7 +143,7 @@ class SiteController extends Controller
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             Yii::$app->session->setFlash('success', 'Sản phẩm mới đã được lưu.');
-            return $this->redirect(['site/admin']); // Corrected redirect URL
+            return $this->redirect(['site/admin_home']); // Corrected redirect URL
         }
 
         return $this->render('admin/admin_product', [
@@ -147,9 +151,23 @@ class SiteController extends Controller
         ]);
     }
 
+    public function actionAdminStaff()
+    {
+        $model = new Staff(); // Assuming you have a model for staff as well
+
+        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            Yii::$app->session->setFlash('success', 'Nhân viên mới đã được lưu.');
+            return $this->redirect(['site/admin_home']); // Corrected redirect URL
+        }
+
+        return $this->render('admin/admin_staff', [
+            'model' => $model,
+        ]);
+    }
+
     public function actionAdmin()
     {
-        return $this->render('admin/admin');
+        return $this->render('admin/admin_home');
     }
     
     /**

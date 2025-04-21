@@ -2,7 +2,7 @@
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 
-$this->title = 'Thêm Sản Phẩm';
+$this->title = 'Thêm Nhân Viên';
 ?>
 
 <h1><?= Html::encode($this->title) ?></h1>
@@ -11,10 +11,9 @@ $this->title = 'Thêm Sản Phẩm';
 
     <?php $form = ActiveForm::begin(); ?>
 
-    <?= $form->field($model, 'tensp')->textInput(['maxlength' => true]) ?>
-    <?= $form->field($model, 'dvt')->textInput(['maxlength' => true]) ?>
-    <?= $form->field($model, 'nuocsx')->textInput(['maxlength' => true]) ?>
-    <?= $form->field($model, 'gia')->input('number') ?>
+    <?= $form->field($model, 'hoten')->textInput(['maxlength' => true]) ?>
+    <?= $form->field($model, 'ngayvl')->input('date') ?>
+    <?= $form->field($model, 'sodt')->textInput(['maxlength' => true]) ?>
 
     <div class="form-group">
         <?= Html::submitButton('Lưu nhân viên', ['class' => 'btn btn-success']) ?>
