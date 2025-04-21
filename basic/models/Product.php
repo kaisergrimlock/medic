@@ -3,6 +3,7 @@ namespace app\models;
 
 use Yii;
 use yii\db\ActiveRecord;
+use yii\data\Pagination;
 
 class Product extends ActiveRecord
 {
@@ -24,6 +25,27 @@ class Product extends ActiveRecord
             [['masp'], 'string', 'max' => 10],
             [['tensp', 'dvt', 'nuocsx'], 'string', 'max' => 255],
             [['gia'], 'integer'],
+        ];
+    }
+
+    public static function getPaginatedProducts($pageSize = 10)
+    {
+        $query = self::find(); // Start the query
+
+        // Set up pagination
+        $pagination = new Pagination([
+            'defaultPageSize' => $pageSize,
+            'totalCount' => $query->count(),
+        ]);
+
+        // Get customers with the pagination
+        $products = $query->offset($pagination->offset)
+            ->limit($pagination->limit)
+            ->all();
+
+        return [
+            'products' => $products,
+            'pagination' => $pagination,
         ];
     }
 

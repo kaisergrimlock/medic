@@ -146,11 +146,16 @@ class SiteController extends Controller
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             Yii::$app->session->setFlash('success', 'Sản phẩm mới đã được lưu.');
-            return $this->redirect(['site/admin-product']); // Corrected redirect URL
+            return $this->redirect(['site/admin-product']); // Redirected to the same page after saving
         }
+
+        // Get paginated products from the model
+        $paginationData = Product::getPaginatedProducts(10);
 
         return $this->render('admin/admin_product', [
             'model' => $model,
+            'products' => $paginationData['products'],
+            'pagination' => $paginationData['pagination'],
         ]);
     }
 
@@ -163,8 +168,13 @@ class SiteController extends Controller
             return $this->redirect(['site/admin-staff']); // Corrected redirect URL
         }
 
-        return $this->render('admin/admin', [
+        // Get paginated staff from the model
+        $paginationData = Staff::getPaginatedStaff(10);
+
+        return $this->render('admin/admin_staff', [
             'model' => $model,
+            'staffs' => $paginationData['staffs'],
+            'pagination' => $paginationData['pagination'],
         ]);
     }
 

@@ -3,6 +3,7 @@ namespace app\models;
 
 use Yii;
 use yii\db\ActiveRecord;
+use yii\data\Pagination;
 
 class Staff extends ActiveRecord
 {
@@ -28,6 +29,28 @@ class Staff extends ActiveRecord
         ];
     }
 
+    public static function getPaginatedStaff($pageSize = 10)
+    {
+        $query = self::find(); // Start the query
+
+        // Set up pagination
+        $pagination = new Pagination([
+            'defaultPageSize' => $pageSize,
+            'totalCount' => $query->count(),
+        ]);
+
+        // Get customers with the pagination
+        $products = $query->offset($pagination->offset)
+            ->limit($pagination->limit)
+            ->all();
+
+        return [
+            'staffs' => $products,
+            'pagination' => $pagination,
+        ];
+    }
+   
+    
     /**
      * Auto-generate a unique staff ID (manv) before saving a new record.
      * Format: NV01, NV02, etc.
