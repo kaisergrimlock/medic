@@ -28,21 +28,27 @@ class Product extends ActiveRecord
         ];
     }
 
-    public static function getPaginatedProducts($pageSize = 10)
+    public static function getPaginatedProducts($pageSize = 10, $searchTerm = null)
     {
-        $query = self::find(); // Start the query
-
-        // Set up pagination
+        $query = self::find();
+    
+        if (!empty($searchTerm)) {
+            $query->andWhere([
+                'or',
+                ['like', 'tensp', $searchTerm],
+                ['like', 'masp', $searchTerm],
+            ]);
+        }
+    
         $pagination = new Pagination([
             'defaultPageSize' => $pageSize,
             'totalCount' => $query->count(),
         ]);
-
-        // Get customers with the pagination
+    
         $products = $query->offset($pagination->offset)
-            ->limit($pagination->limit)
-            ->all();
-
+                          ->limit($pagination->limit)
+                          ->all();
+    
         return [
             'products' => $products,
             'pagination' => $pagination,

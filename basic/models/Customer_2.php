@@ -30,9 +30,21 @@ class Customer_2 extends ActiveRecord
         ];
     }
 
-    public static function getPaginatedCustomers($pageSize = 10)
+    public static function getPaginatedCustomers($pageSize = 10, $searchTerm = null)
     {
-        $query = self::find(); // Start the query
+        // Initialize the query
+        $query = self::find();
+
+        // If a search term is provided, filter the results
+        if (!empty($searchTerm)) {
+            $query->andWhere([
+                'or',
+                ['like', 'ho', $searchTerm],
+                ['like', 'ten', $searchTerm],
+                ['like', 'makh', $searchTerm],
+                ['like', new \yii\db\Expression("ho || ' ' || ten"), $searchTerm]
+            ]);
+        }
 
         // Set up pagination
         $pagination = new Pagination([

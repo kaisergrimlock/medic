@@ -123,6 +123,7 @@ class SiteController extends Controller
     public function actionAdminCustomer()
     {
         $model = new Customer_2();
+        $searchTerm = Yii::$app->request->get('Customer_2')['ten'] ?? null;
     
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             Yii::$app->session->setFlash('success', 'Khách hàng mới đã được lưu.');
@@ -130,7 +131,7 @@ class SiteController extends Controller
         }
     
         // Get paginated customers from the model
-        $paginationData = Customer_2::getPaginatedCustomers(10);
+        $paginationData = Customer_2::getPaginatedCustomers(10, $searchTerm);
 
         return $this->render('admin/admin_customer', [
             'model' => $model,
@@ -143,6 +144,7 @@ class SiteController extends Controller
     public function actionAdminProduct()
     {
         $model = new Product();
+        $searchTerm = Yii::$app->request->get('Product')['tensp'] ?? null;
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             Yii::$app->session->setFlash('success', 'Sản phẩm mới đã được lưu.');
@@ -150,18 +152,19 @@ class SiteController extends Controller
         }
 
         // Get paginated products from the model
-        $paginationData = Product::getPaginatedProducts(10);
+        $result = Product::getPaginatedProducts(10, $searchTerm);
 
         return $this->render('admin/admin_product', [
             'model' => $model,
-            'products' => $paginationData['products'],
-            'pagination' => $paginationData['pagination'],
+            'products' => $result['products'],
+            'pagination' => $result['pagination'],
         ]);
     }
 
     public function actionAdminStaff()
     {
         $model = new Staff(); // Assuming you have a model for staff as well
+        $searchTerm = Yii::$app->request->get('Staff')['hoten'] ?? null;
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             Yii::$app->session->setFlash('success', 'Nhân viên mới đã được lưu.');
@@ -169,7 +172,7 @@ class SiteController extends Controller
         }
 
         // Get paginated staff from the model
-        $paginationData = Staff::getPaginatedStaff(10);
+        $paginationData = Staff::getPaginatedStaff(10, $searchTerm);
 
         return $this->render('admin/admin_staff', [
             'model' => $model,

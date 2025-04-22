@@ -22,6 +22,22 @@ $this->title = 'Thêm Sản Phẩm';
         <?php ActiveForm::end(); ?>
     </div>
 </div>
+
+<div>
+    <?php $searchForm = ActiveForm::begin([
+        'method' => 'get',
+        'action' => ['site/admin-product'], // Change if needed
+        'options' => ['id' => 'product-search-form', 'class' => 'form-inline', 'style' => 'margin-bottom: 15px;']
+    ]); ?>
+
+    <?= $searchForm->field($model, 'tensp')->textInput([
+        'placeholder' => 'Tìm sản phẩm...',
+        'class' => 'form-control mr-2',
+        'onkeypress' => "if(event.key === 'Enter'){ this.form.submit(); }"
+    ])->label(false) ?>
+    <?php ActiveForm::end(); ?>
+</div>
+
 <div class="item-list">
     <!-- Trigger Button -->
     <button id="openModalBtn" class="btn btn-primary">Thêm Sản Phẩm</button>

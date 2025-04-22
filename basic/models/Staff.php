@@ -29,9 +29,16 @@ class Staff extends ActiveRecord
         ];
     }
 
-    public static function getPaginatedStaff($pageSize = 10)
+    public static function getPaginatedStaff($pageSize = 10, $searchTerm = null)
     {
         $query = self::find(); // Start the query
+        if (!empty($searchTerm)) {
+            $query->andWhere([
+            'or',
+            ['like', 'hoten', $searchTerm],
+            ['like', 'manv', $searchTerm],
+            ]);
+        }
 
         // Set up pagination
         $pagination = new Pagination([

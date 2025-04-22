@@ -30,6 +30,22 @@ $this->title = 'Quản Trị Khách Hàng';
         <?php ActiveForm::end(); ?>
     </div>
 </div>
+
+<div>
+    <?php $searchForm = ActiveForm::begin([
+        'method' => 'get',
+        'action' => ['site/admin-customer'], // Adjusted for customer context
+        'options' => ['id' => 'customer-search-form', 'class' => 'form-inline', 'style' => 'margin-bottom: 15px;']
+    ]); ?>
+
+    <?= $searchForm->field($model, 'ten')->textInput([
+        'placeholder' => 'Tìm khách hàng...',
+        'class' => 'form-control mr-2',
+        'onkeypress' => "if(event.key === 'Enter'){ this.form.submit(); }"
+    ])->label(false) ?>
+    <?php ActiveForm::end(); ?>
+</div>
+
 <div class="item-list">
     <!-- Trigger Button -->
     <button id="openModalBtn" class="btn btn-primary">Thêm Khách Hàng</button>

@@ -22,6 +22,21 @@ $this->title = 'Thêm Nhân Viên';
 </div>
 
 <div>
+    <?php $searchForm = ActiveForm::begin([
+        'method' => 'get',
+        'action' => ['site/admin-staff'], // Adjusted for staff search
+        'options' => ['id' => 'staff-search-form', 'class' => 'form-inline', 'style' => 'margin-bottom: 15px;']
+    ]); ?>
+
+    <?= $searchForm->field($model, 'hoten')->textInput([
+        'placeholder' => 'Tìm nhân viên...',
+        'class' => 'form-control mr-2',
+        'onkeypress' => "if(event.key === 'Enter'){ this.form.submit(); }"
+    ])->label(false) ?>
+    <?php ActiveForm::end(); ?>
+</div>
+
+<div>
     <!-- Trigger Button -->
     <button id="openModalBtn" class="btn btn-primary">Thêm Nhân Viên</button>
     <table class="table table-bordered">
