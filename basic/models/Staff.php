@@ -34,9 +34,9 @@ class Staff extends ActiveRecord
         $query = self::find(); // Start the query
         if (!empty($searchTerm)) {
             $query->andWhere([
-            'or',
-            ['like', 'hoten', $searchTerm],
-            ['like', 'manv', $searchTerm],
+                'or',
+                ['like', 'hoten', $searchTerm],
+                ['like', 'manv', $searchTerm],
             ]);
         }
 
@@ -56,8 +56,7 @@ class Staff extends ActiveRecord
             'pagination' => $pagination,
         ];
     }
-   
-    
+
     /**
      * Auto-generate a unique staff ID (manv) before saving a new record.
      * Format: NV01, NV02, etc.
@@ -92,5 +91,19 @@ class Staff extends ActiveRecord
             'ngayvl' => 'Ngày Vào Làm',
             'sodt' => 'Số Điện Thoại',
         ];
+    }
+
+    public function deleteStaff()
+    {
+        return $this->delete();
+    }
+
+    public function updateFromForm($data)
+    {
+        $this->hoten = $data['hoten'] ?? $this->hoten;
+        $this->ngayvl = $data['ngayvl'] ?? $this->ngayvl;
+        $this->sodt = $data['sodt'] ?? $this->sodt;
+
+        return $this->save();
     }
 }

@@ -256,6 +256,44 @@ class SiteController extends Controller
         ]);
     }
 
+    // controllers/SiteController.php
+    public function actionUpdateStaff()
+    {
+        $request = Yii::$app->request;
+        $masp = $request->post('masp');
+        $product = Product::findOne($masp);
+
+        if (!$product) {
+            Yii::$app->session->setFlash('error', 'Sản phẩm không tồn tại.');
+            return $this->redirect(Yii::$app->request->referrer ?: ['site/admin-product']);
+        }
+
+        if ($product->updateFromForm($request->post())) {
+            Yii::$app->session->setFlash('success', 'Cập nhật sản phẩm thành công.');
+        } else {
+            Yii::$app->session->setFlash('error', 'Cập nhật thất bại. Vui lòng thử lại.');
+        }
+
+        return $this->redirect(Yii::$app->request->referrer ?: ['site/admin-product']);
+    }
+    
+    public function actionDeleteStaff($id)
+    {
+        $staff = Staff::findOne($id);
+
+        if (!$staff) {
+            Yii::$app->session->setFlash('error', 'Nhân viên không tồn tại.');
+        } else {
+            if ($staff->deleteStaff()) {
+                Yii::$app->session->setFlash('success', 'Xóa nhân viên thành công.');
+            } else {
+                Yii::$app->session->setFlash('error', 'Xóa nhân viên thất bại.');
+            }
+        }
+
+        return $this->redirect(Yii::$app->request->referrer ?: ['site/admin-staff']);
+    }
+
 
 
     public function actionAdmin()
