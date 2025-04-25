@@ -60,7 +60,7 @@ $this->title = 'Thêm Nhân Viên';
                         <?= Html::button('Sửa', [
                             'class' => 'btn btn-warning btn-sm edit-btn',
                             'data-staff' => json_encode([
-                                'id' => $staff->manv,
+                                'manv' => $staff->manv,
                                 'hoten' => $staff->hoten,
                                 'ngayvl' => $staff->ngayvl,
                                 'sodt' => $staff->sodt,
@@ -90,7 +90,7 @@ $this->title = 'Thêm Nhân Viên';
             'method' => 'post'
         ]); ?>
 
-        <?= Html::hiddenInput('id', '', ['id' => 'edit-id']) ?>
+        <?= Html::hiddenInput('manv', '', ['id' => 'edit-manv']) ?>
         <?= Html::label('Họ Tên', 'edit-hoten') ?>
         <?= Html::textInput('hoten', '', ['class' => 'form-control', 'id' => 'edit-hoten']) ?>
         <?= Html::label('Ngày Vào Làm', 'edit-ngayvl') ?>
@@ -125,7 +125,7 @@ $this->title = 'Thêm Nhân Viên';
         document.querySelectorAll('.edit-btn').forEach(btn => {
             btn.addEventListener('click', function () {
                 const staff = JSON.parse(this.dataset.staff);
-                document.getElementById('edit-id').value = staff.manv;
+                document.getElementById('edit-manv').value = staff.manv;
                 document.getElementById('edit-hoten').value = staff.hoten;
                 document.getElementById('edit-ngayvl').value = staff.ngayvl;
                 document.getElementById('edit-sodt').value = staff.sodt;

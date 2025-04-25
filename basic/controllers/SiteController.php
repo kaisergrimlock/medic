@@ -260,16 +260,16 @@ class SiteController extends Controller
     public function actionUpdateStaff()
     {
         $request = Yii::$app->request;
-        $masp = $request->post('masp');
-        $product = Product::findOne($masp);
+        $manv = $request->post('manv');
+        $staff = Staff::findOne($manv);
 
-        if (!$product) {
-            Yii::$app->session->setFlash('error', 'Sản phẩm không tồn tại.');
+        if (!$staff) {
+            Yii::$app->session->setFlash('error', 'Nhân viên không tồn tại.');
             return $this->redirect(Yii::$app->request->referrer ?: ['site/admin-product']);
         }
 
-        if ($product->updateFromForm($request->post())) {
-            Yii::$app->session->setFlash('success', 'Cập nhật sản phẩm thành công.');
+        if ($staff->updateFromForm($request->post())) {
+            Yii::$app->session->setFlash('success', 'Cập nhật nhân viên thành công.');
         } else {
             Yii::$app->session->setFlash('error', 'Cập nhật thất bại. Vui lòng thử lại.');
         }
