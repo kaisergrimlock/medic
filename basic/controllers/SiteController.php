@@ -140,6 +140,42 @@ class SiteController extends Controller
         ]);
     }
 
+    public function actionUpdateCustomer()
+    {
+        $request = Yii::$app->request;
+        $makh = $request->post('makh');
+        $customer = Customer_2::findOne($makh);
+
+        if (!$customer) {
+            Yii::$app->session->setFlash('error', 'Khách hàng không tồn tại.');
+            return $this->redirect(Yii::$app->request->referrer ?: ['site/admin-customer']);
+        }
+
+        if ($customer->updateFromForm($request->post())) {
+            Yii::$app->session->setFlash('success', 'Cập nhật khách hàng thành công.');
+        } else {
+            Yii::$app->session->setFlash('error', 'Cập nhật thất bại. Vui lòng thử lại.');
+        }
+
+        return $this->redirect(Yii::$app->request->referrer ?: ['site/admin-customer']);
+    }
+
+    public function actionDeleteCustomer($id)
+    {
+        $customer = Customer_2::findOne($id);
+
+        if (!$customer) {
+            Yii::$app->session->setFlash('error', 'Khách hàng không tồn tại.');
+        } else {
+            if ($customer->deleteCustomer()) {
+                Yii::$app->session->setFlash('success', 'Xóa khách hàng thành công.');
+            } else {
+                Yii::$app->session->setFlash('error', 'Xóa khách hàng thất bại.');
+            }
+        }
+
+        return $this->redirect(Yii::$app->request->referrer ?: ['site/admin-customer']);
+    }
 
     public function actionAdminProduct()
     {
@@ -182,7 +218,7 @@ class SiteController extends Controller
         return $this->redirect(Yii::$app->request->referrer ?: ['site/admin-product']);
     }
     
-    public function actionDelete($id)
+    public function actionDeleteProduct($id)
     {
         $product = Product::findOne($id);
 
@@ -219,6 +255,8 @@ class SiteController extends Controller
             'pagination' => $paginationData['pagination'],
         ]);
     }
+
+
 
     public function actionAdmin()
     {

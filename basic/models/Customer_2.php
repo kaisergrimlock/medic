@@ -110,4 +110,24 @@ class Customer_2 extends ActiveRecord
             'nghenghiep' => 'Nghề Nghiệp',
         ];
     }
+
+    public function deleteCustomer()
+    {
+        return $this->delete();
+    }
+
+    public function updateFromForm($data)
+    {
+        $this->ho = $data['ho'] ?? $this->ho;
+        $this->ten = $data['ten'] ?? $this->ten;
+        $this->gioitinh = $data['gioitinh'] ?? $this->gioitinh;
+        $this->diachi = $data['diachi'] ?? $this->diachi;
+        $this->sodt = $data['sodt'] ?? $this->sodt;
+        $this->ngaysinh = $data['ngaysinh'] ?? $this->ngaysinh;
+        $this->doanhso = $data['doanhso'] ?? $this->doanhso;
+        $this->ngaydk = $data['ngaydk'] ?? $this->ngaydk;
+        $this->nghenghiep = $data['nghenghiep'] ?? $this->nghenghiep;
+
+        return $this->save();
+    }
 }
