@@ -93,4 +93,16 @@ class Product extends ActiveRecord
             'gia' => 'Giá',
         ];
     }
+
+    // models/Product.php
+    public function updateFromForm($data)
+    {
+        $this->tensp = $data['tensp'] ?? $this->tensp;
+        $this->dvt = $data['dvt'] ?? $this->dvt;
+        $this->nuocsx = $data['nuocsx'] ?? $this->nuocsx;
+        $this->gia = $data['gia'] ?? $this->gia;
+
+        return $this->save();
+    }
+
 }
