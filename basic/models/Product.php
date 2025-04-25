@@ -95,6 +95,13 @@ class Product extends ActiveRecord
     }
 
     // models/Product.php
+    public function deleteProduct()
+    {
+        return $this->delete();
+    }
+
+
+    // models/Product.php
     public function updateFromForm($data)
     {
         $this->tensp = $data['tensp'] ?? $this->tensp;

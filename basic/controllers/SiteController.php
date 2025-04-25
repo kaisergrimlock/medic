@@ -181,6 +181,23 @@ class SiteController extends Controller
 
         return $this->redirect(Yii::$app->request->referrer ?: ['site/admin-product']);
     }
+    
+    public function actionDelete($id)
+    {
+        $product = Product::findOne($id);
+
+        if (!$product) {
+            Yii::$app->session->setFlash('error', 'Sản phẩm không tồn tại.');
+        } else {
+            if ($product->deleteProduct()) {
+                Yii::$app->session->setFlash('success', 'Xóa sản phẩm thành công.');
+            } else {
+                Yii::$app->session->setFlash('error', 'Xóa sản phẩm thất bại.');
+            }
+        }
+
+        return $this->redirect(Yii::$app->request->referrer ?: ['site/admin-product']);
+    }
 
 
     public function actionAdminStaff()
