@@ -11,8 +11,6 @@ $this->registerCssFile('@web/css/admin.css', [
 ]);
 ?>
 
-
-
 <div class="admin-header">
     <h1>Quản Trị Hệ Thống</h1>
 </div>
