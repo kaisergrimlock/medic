@@ -37,7 +37,7 @@ $this->title = 'Quản Trị Khách Hàng';
         <span class="close" id="closeEditCustomerModalBtn">&times;</span>
         <?php $editForm = ActiveForm::begin([
             'id' => 'edit-customer-form',
-            'action' => ['site/update-customer'],
+            'action' => ['admin-customer/index'],
             'method' => 'post'
         ]); ?>
 
@@ -81,7 +81,7 @@ $this->title = 'Quản Trị Khách Hàng';
 <div>
     <?php $searchForm = ActiveForm::begin([
         'method' => 'get',
-        'action' => ['site/admin-customer'],
+        'action' => ['admin-customer/index'],
         'options' => ['id' => 'customer-search-form', 'class' => 'form-inline', 'style' => 'margin-bottom: 15px;']
     ]); ?>
 

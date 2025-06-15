@@ -55,3 +55,108 @@
 .btn-admin:hover {
     background: #397ad8;
 }
+
+.table-toolbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin: 20px 0;
+}
+
+.toolbar-center {
+    flex: 1;
+}
+
+.search-form {
+    display: inline-flex;
+    align-items: center;
+    height: 38px;
+}
+
+.search-box {
+    height: 40px;
+    font-size: 14px;
+    padding: 8px 12px; /* match vertical padding */
+    border-radius: 6px;
+    display: inline-block; /* change from flex */
+    vertical-align: middle; /* important */
+    box-sizing: border-box;
+    line-height: 1.5;
+    margin-bottom: 0px;
+}
+
+.search-input-group {
+    display: flex;
+    align-items: center;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    overflow: hidden;
+    height: 38px;
+    width: fit-content;
+}
+
+.search-box {
+    border: none;
+    padding: 0 12px;
+    height: 100%;
+    font-size: 14px;
+    flex: 1;
+    outline: none;
+    box-sizing: border-box;
+}
+
+.search-btn {
+    background-color: #0d6efd;
+    color: white;
+    border: none;
+    padding: 0 14px;
+    height: 100%;
+    font-size: 16px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.2s ease;
+}
+
+.search-btn:hover {
+    background-color: #0b5ed7;
+}
+
+
+.btn-admin-taskbar {
+    padding: 8px 16px;
+    font-size: 14px;
+    font-weight: 500;
+    border-radius: 6px;
+    height: 38px;
+    line-height: 1;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+    cursor: pointer;
+    transition: background 0.2s ease, color 0.2s ease;
+}
+
+.btn-admin-taskbar.primary {
+    background-color: #0d6efd;
+    color: #fff;
+}
+
+.btn-admin-taskbar.primary:hover {
+    background-color: #0b5ed7;
+}
+
+.btn-admin-taskbar.outline {
+    background: transparent;
+    color: #0d6efd;
+    border: 1px solid #0d6efd;
+}
+
+.btn-admin-taskbar.outline:hover {
+    background-color: #0d6efd;
+    color: #fff;
+}

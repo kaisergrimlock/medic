@@ -4,48 +4,42 @@ namespace app\controllers;
 
 use Yii;
 use yii\web\Controller;
-use app\models\Staff;
+use app\models\Customer_2;
 
 class AdminCustomerController extends Controller
 {
-    /**
-     * Displays the staff admin page with form and list.
-     */
     public function actionIndex()
     {
-        $model = new Staff(); // Still using Staff model
-        $searchTerm = Yii::$app->request->get('Staff')['hoten'] ?? null;
+        $model = new Customer_2();
+        $searchTerm = Yii::$app->request->get('Customer_2')['ten'] ?? null;
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            Yii::$app->session->setFlash('success', 'Nhân viên mới đã được lưu.');
+            Yii::$app->session->setFlash('success', 'Khách hàng mới đã được lưu.');
             return $this->redirect(['index']);
         }
 
-        $paginationData = Staff::getPaginatedStaff(10, $searchTerm);
+        $paginationData = Customer_2::getPaginatedCustomers(10, $searchTerm);
 
-        return $this->render('//site/admin/admin_staff', [
+        return $this->render('//site/admin/admin_customer', [
             'model' => $model,
-            'staffs' => $paginationData['staffs'],
+            'customers' => $paginationData['customers'],
             'pagination' => $paginationData['pagination'],
         ]);
     }
 
-    /**
-     * Updates an existing staff record.
-     */
-    public function actionUpdate()
+    public function actionUpdateCustomer()
     {
         $request = Yii::$app->request;
-        $manv = $request->post('manv');
-        $staff = Staff::findOne($manv);
+        $makh = $request->post('makh');
+        $customer = Customer_2::findOne($makh);
 
-        if (!$staff) {
-            Yii::$app->session->setFlash('error', 'Nhân viên không tồn tại.');
+        if (!$customer) {
+            Yii::$app->session->setFlash('error', 'Khách hàng không tồn tại.');
             return $this->redirect(Yii::$app->request->referrer ?: ['index']);
         }
 
-        if ($staff->updateFromForm($request->post())) {
-            Yii::$app->session->setFlash('success', 'Cập nhật nhân viên thành công.');
+        if ($customer->updateFromForm($request->post())) {
+            Yii::$app->session->setFlash('success', 'Cập nhật khách hàng thành công.');
         } else {
             Yii::$app->session->setFlash('error', 'Cập nhật thất bại. Vui lòng thử lại.');
         }
@@ -53,20 +47,17 @@ class AdminCustomerController extends Controller
         return $this->redirect(Yii::$app->request->referrer ?: ['index']);
     }
 
-    /**
-     * Deletes a staff record.
-     */
-    public function actionDelete($id)
+    public function actionDeleteCustomer($id)
     {
-        $staff = Staff::findOne($id);
+        $customer = Customer_2::findOne($id);
 
-        if (!$staff) {
-            Yii::$app->session->setFlash('error', 'Nhân viên không tồn tại.');
+        if (!$customer) {
+            Yii::$app->session->setFlash('error', 'Khách hàng không tồn tại.');
         } else {
-            if ($staff->deleteStaff()) {
-                Yii::$app->session->setFlash('success', 'Xóa nhân viên thành công.');
+            if ($customer->deleteCustomer()) {
+                Yii::$app->session->setFlash('success', 'Xóa khách hàng thành công.');
             } else {
-                Yii::$app->session->setFlash('error', 'Xóa nhân viên thất bại.');
+                Yii::$app->session->setFlash('error', 'Xóa khách hàng thất bại.');
             }
         }
 

@@ -1,9 +1,13 @@
 <?php
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
-
+$this->registerCssFile('@web/css/admin.css', [
+        'depends' => [\yii\web\YiiAsset::class],
+    ]);
 $this->title = 'Thêm Nhân Viên';
 ?>
+
+
 
 <h1><?= Html::encode($this->title) ?></h1>
 
@@ -22,25 +26,37 @@ $this->title = 'Thêm Nhân Viên';
     </div>
 </div>
 
-<!-- Search -->
-<div>
-    <?php $searchForm = ActiveForm::begin([
-        'method' => 'get',
-        'action' => ['site/admin-staff'],
-        'options' => ['id' => 'staff-search-form', 'class' => 'form-inline', 'style' => 'margin-bottom: 15px;']
-    ]); ?>
+<div class="table-toolbar">
+    <div class="toolbar-center">
+        <div class="search-input-group">
+            <?php $searchForm = ActiveForm::begin([
+                'method' => 'get',
+                'action' => ['admin-staff/index'],
+                'options' => ['class' => 'search-form']
+            ]); ?>
 
-    <?= $searchForm->field($model, 'hoten')->textInput([
-        'placeholder' => 'Tìm nhân viên...',
-        'class' => 'form-control mr-2',
-        'onkeypress' => "if(event.key === 'Enter'){ this.form.submit(); }"
-    ])->label(false) ?>
-    <?php ActiveForm::end(); ?>
+            <?= Html::input('text', 'hoten', Yii::$app->request->get('hoten'), [
+                'class' => 'form-control search-box',
+                'placeholder' => 'Tìm nhân viên...',
+            ]) ?>
+
+            <button type="submit" class="search-btn">
+                🔍
+            </button>
+
+            <?php ActiveForm::end(); ?>
+        </div>
+    </div>
+
+    <div class="toolbar-right">
+        <button id="openModalBtn" class="btn-admin-taskbar primary">+ Thêm Nhân Viên</button>
+        <?= Html::a('⟳ Tải Lại', ['admin-staff/index'], ['class' => 'btn-admin-taskbar outline']) ?>
+    </div>
 </div>
 
-<div>
-    <!-- Trigger Button -->
-    <button id="openModalBtn" class="btn btn-primary">Thêm Nhân Viên</button>
+
+
+
     <table class="table table-bordered">
         <thead>
             <tr>
@@ -66,13 +82,18 @@ $this->title = 'Thêm Nhân Viên';
                                 'sodt' => $staff->sodt,
                             ])
                         ]) ?>
-                        <?= Html::a('Xóa', ['delete-staff', 'id' => $staff->manv], [
-                            'class' => 'btn btn-danger btn-sm',
-                            'data' => [
-                                'confirm' => 'Bạn có chắc chắn muốn xóa nhân viên này?',
-                                'method' => 'post',
-                            ],
-                        ]) ?>
+                        <?= Html::a(
+                            Html::img('@web/img/delete.png', [
+                                'alt' => 'Xóa',
+                                'style' => 'width:16px; vertical-align:middle;',
+                            ]),
+                            ['delete-staff', 'id' => $staff->manv], [
+                                'class' => 'btn btn-danger btn-sm',
+                                'data' => [
+                                    'confirm' => 'Bạn có chắc chắn muốn xóa nhân viên này?',
+                                    'method' => 'post',
+                                ],
+                            ]) ?>
                     </td>
                 </tr>
             <?php endforeach; ?>
