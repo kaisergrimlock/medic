@@ -41,7 +41,7 @@ $this->registerJsFile('@web/scripts/popup.js', ['depends' => [\yii\web\JqueryAss
         'options' => ['class' => 'navbar-nav'],
         'items' => [
             ['label' => 'Nhập Hóa Đơn', 'url' => ['/site/index']],
-            ['label' => 'Quản Trị', 'url' => ['/site/admin']],
+            ['label' => 'Quản Trị', 'url' => ['admin/index']],
             ['label' => 'About', 'url' => ['/site/about']],
             ['label' => 'Contact', 'url' => ['/site/contact']],
             Yii::$app->user->isGuest

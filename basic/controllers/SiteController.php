@@ -294,13 +294,7 @@ class SiteController extends Controller
         return $this->redirect(Yii::$app->request->referrer ?: ['site/admin-staff']);
     }
 
-
-
-    public function actionAdmin()
-    {
-        return $this->render('admin/admin_home');
-    }
-    
+   
     /**
      * Displays about page.
      */
