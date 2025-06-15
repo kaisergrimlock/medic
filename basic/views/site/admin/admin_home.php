@@ -9,9 +9,9 @@ $this->title = 'Quản Trị Hệ Thống';
 <div>
     <div>
         <div class="admin-navigation">
-            <p><?= Html::a('Thêm Khách Hàng', ['site/admin-customer'], ['class' => 'btn btn-success']) ?></p>
-            <p><?= Html::a('Thêm Sản Phẩm', ['site/admin-product'], ['class' => 'btn btn-primary']) ?></p>
-            <p><?= Html::a('Thêm Nhân Viên', ['site/admin-staff'], ['class' => 'btn btn-primary']) ?></p>
+            <p><?= Html::a('Thêm Khách Hàng', ['admin-customer/index'], ['class' => 'btn btn-success']) ?></p>
+            <p><?= Html::a('Thêm Sản Phẩm', ['admin-product/index'], ['class' => 'btn btn-primary']) ?></p>
+            <p><?= Html::a('Thêm Nhân Viên', ['admin-staff/index'], ['class' => 'btn btn-primary']) ?></p>
         </div>
 </div>
 
